@@ -54,4 +54,5 @@ void commons_log_vprintf(commons_log_level level, const char *tag, const char *f
             break;
     }
     fprintf(output, "[%ld.%03ld][%s] %s\n", ts.tv_sec, ts.tv_nsec / 1000000, tag, msg);
+    commons_log_notify_listener(level, tag, msg);
 }

@@ -26,5 +26,6 @@ void commons_log_vprintf(commons_log_level level, const char *tag, const char *f
     };
     char buf[1024];
     vsnprintf(buf, 1023, fmt, arg);
+    commons_log_notify_listener(level, tag, buf);
     syslog(priorities[level], "[%s] %s", tag, buf);
 }

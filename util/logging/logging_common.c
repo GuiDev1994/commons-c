@@ -5,6 +5,18 @@
 
 static int check_level(int level, const char *tag);
 
+static commons_log_listener_t log_listener = NULL;
+
+void commons_log_set_listener(commons_log_listener_t listener) {
+    log_listener = listener;
+}
+
+void commons_log_notify_listener(commons_log_level level, const char *tag, const char *message) {
+    if (log_listener != NULL && message != NULL) {
+        log_listener(level, tag, message);
+    }
+}
+
 void commons_log_printf(commons_log_level level, const char *tag, const char *fmt, ...) {
     if (!check_level(level, tag)) {
         return;

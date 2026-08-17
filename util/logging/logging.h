@@ -32,6 +32,17 @@ void commons_log_hexdump2(commons_log_level level, const char *tag, commons_hexd
 
 void commons_log_vprintf(commons_log_level level, const char *tag, const char *fmt, va_list arg);
 
+/**
+ * Optional listener invoked after a log line is formatted (no ANSI).
+ * Used by the on-screen log overlay ring. Pass NULL to clear.
+ */
+typedef void (*commons_log_listener_t)(commons_log_level level, const char *tag, const char *message);
+
+void commons_log_set_listener(commons_log_listener_t listener);
+
+/** Called by logging backends after formatting a line (internal use). */
+void commons_log_notify_listener(commons_log_level level, const char *tag, const char *message);
+
 #define commons_log_fatal(tag, ...) commons_log_printf(COMMONS_LOG_LEVEL_FATAL, (tag), __VA_ARGS__)
 
 #define commons_log_error(tag, ...) commons_log_printf(COMMONS_LOG_LEVEL_ERROR, (tag), __VA_ARGS__)

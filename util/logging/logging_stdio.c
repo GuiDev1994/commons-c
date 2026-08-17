@@ -1,9 +1,10 @@
+#include "logging.h"
+
 #include <stdio.h>
 #include <stdbool.h>
+#include <string.h>
 #include <SDL_timer.h>
 #include <SDL_mutex.h>
-
-#include "logging.h"
 
 static bool log_header(int level, const char *tag);
 
@@ -25,18 +26,21 @@ void commons_log_vprintf(commons_log_level level, const char *tag, const char *f
     if (lock == NULL) {
         return;
     }
+    char msg[1024];
+    vsnprintf(msg, sizeof(msg), fmt, arg);
+    size_t len = strlen(msg);
+    if (len > 0 && msg[len - 1] == '\n') {
+        msg[len - 1] = '\0';
+    }
+    commons_log_notify_listener(level, tag, msg);
+
     SDL_LockMutex(lock);
     if (!log_header(level, tag)) {
         SDL_UnlockMutex(lock);
         return;
     }
-    vfprintf(stderr, fmt, arg);
-    int last_idx = (int) strlen(fmt) - 1;
-    if (last_idx >= 0 && fmt[last_idx] == '\n') {
-        fprintf(stderr, "\x1b[0m");
-    } else {
-        fprintf(stderr, "\x1b[0m\n");
-    }
+    fputs(msg, stderr);
+    fprintf(stderr, "\x1b[0m\n");
     SDL_UnlockMutex(lock);
 }
 
