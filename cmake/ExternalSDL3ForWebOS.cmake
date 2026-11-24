@@ -17,8 +17,8 @@ if (CMAKE_TOOLCHAIN_ARGS)
     list(APPEND EXT_SDL3_TOOLCHAIN_ARGS "-DCMAKE_TOOLCHAIN_ARGS:string=${CMAKE_TOOLCHAIN_ARGS}")
 endif ()
 
-set(SDL3_WEBOS_RELEASE "release-3.4.16-webos.5")
-set(SDL3_WEBOS_ARCHIVE "SDL3-3.4.16-webos.5.tar.gz")
+set(SDL3_WEBOS_RELEASE "release-3.4.16-webos.6")
+set(SDL3_WEBOS_ARCHIVE "SDL3-3.4.16-webos.6.tar.gz")
 set(SDL2COMPAT_GIT_TAG "release-2.32.74")
 # Private SONAME. Aurora's shim occupies libSDL2-2.0.so.0 and forwards NDL to this SDL3.
 set(LIB_FILENAME "libSDL2-webos.so.0")
